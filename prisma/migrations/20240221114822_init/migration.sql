@@ -3,6 +3,7 @@ CREATE TABLE "Event" (
     "id" SERIAL NOT NULL,
     "status" BOOLEAN NOT NULL DEFAULT false,
     "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
     "grouped" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
