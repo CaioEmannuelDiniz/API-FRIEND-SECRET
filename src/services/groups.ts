@@ -1,6 +1,7 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 
 import * as events from "./events";
+import { type } from "os";
 
 const prisma = new PrismaClient();
 
@@ -42,6 +43,16 @@ type GroupUpdateData = Prisma.Args<typeof prisma.eventGroup, "update">["data"];
 export const update = async (filters: UpdateFilters, data: GroupUpdateData) => {
   try {
     return await prisma.eventGroup.update({ where: filters, data });
+  } catch (err) {
+    return false;
+  }
+};
+
+type DeleteFilters = { id: number; id_event?: number };
+
+export const remove = async (filters: DeleteFilters) => {
+  try {
+    return await prisma.eventGroup.delete({ where: filters });
   } catch (err) {
     return false;
   }
