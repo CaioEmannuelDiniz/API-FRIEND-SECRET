@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
+import { z } from "zod";
 
 import * as groups from "../services/groups";
-import { group } from "console";
 
 export const getAll: RequestHandler = async (req, res) => {
   const { id_event } = req.params;
@@ -21,6 +21,25 @@ export const getGroup: RequestHandler = async (req, res) => {
     id_event: parseInt(id_event),
   });
   if (groupItem) return res.json({ group: groupItem });
+
+  res.json({ error: "Ocorreu um erro" });
+};
+
+export const addGroup: RequestHandler = async (req, res) => {
+  const { id_event } = req.params;
+
+  const addGroupSchema = z.object({ name: z.string() });
+
+  const body = addGroupSchema.safeParse(req.body);
+  if (!body.success) return res.json({ error: "Dados inválidos" });
+
+  const newGroup = await groups.add({
+    //podia ser name: body.data.name
+    //clone do body.data
+    ...body.data,
+    id_event: parseInt(id_event),
+  });
+  if (newGroup) return res.status(201).json({ group: newGroup });
 
   res.json({ error: "Ocorreu um erro" });
 };
