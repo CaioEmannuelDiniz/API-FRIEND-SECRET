@@ -2,7 +2,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 import * as people from "./people";
 import * as groups from "./groups";
-import { encrypyMatch } from "../utils/match";
+import { encryptMatch } from "../utils/match";
 
 const prisma = new PrismaClient();
 
@@ -131,7 +131,7 @@ export const doMatches = async (id: number): Promise<boolean> => {
               id: sortedList[i].id,
               id_event: id,
             },
-            { matched: encrypyMatch(sortedList[i].match) }
+            { matched: encryptMatch(sortedList[i].match) }
           );
         }
         return true;
